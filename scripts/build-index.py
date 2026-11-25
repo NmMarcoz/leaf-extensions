@@ -50,7 +50,8 @@ def leaf_binary():
     found = os.environ.get("LEAF_BIN") or shutil.which("leaf")
     if not found:
         sys.exit("build-index: no `leaf` binary — set LEAF_BIN or put it on PATH")
-    return found
+    # Relative to where the user ran this, not to the repo root it runs in.
+    return os.path.abspath(found)
 
 
 def verified_manifests():

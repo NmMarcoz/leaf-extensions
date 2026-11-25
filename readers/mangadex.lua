@@ -57,10 +57,10 @@ local function api_get(path, params)
   end
   local res = leaf.http.get(url, { headers = { ["Accept"] = "application/json" } })
   if res.status == 429 then
-    error("MangaDex is rate-limiting requests; wait a minute and try again")
+    error("MangaDex is rate-limiting requests; wait a minute and try again", 0)
   end
   if res.status ~= 200 then
-    error("MangaDex answered " .. res.status .. " for " .. path)
+    error("MangaDex answered " .. res.status .. " for " .. path, 0)
   end
   return leaf.json.decode(res.body)
 end
@@ -167,16 +167,17 @@ function page_list(chapter_id)
 
   -- A chapter MangaDex indexes but does not host answers with an empty list
   -- and a success status. The publisher's page goes last in the message:
-  -- Leaf's reader offers a URL at the end of an error as a button.
+  -- Leaf's reader offers a URL at the end of an error as a button. Level 0,
+  -- so no "script:N:" position is prefixed to a message meant for a reader.
   if not base or not hash or hash == "" or #files == 0 then
     local ok, chapter = pcall(api_get, "/chapter/" .. chapter_id)
     local external = ok and chapter.data and chapter.data.attributes
       and chapter.data.attributes.externalUrl
     if external then
       error("MangaDex indexes this chapter but does not host its images — it is "
-        .. "officially licensed and published at " .. external)
+        .. "officially licensed and published at " .. external, 0)
     end
-    error("MangaDex has no images for this chapter.")
+    error("MangaDex has no images for this chapter.", 0)
   end
 
   local pages = {}

@@ -1,0 +1,12 @@
+#!/bin/sh
+# Refuse a commit whose index.json does not match its scripts.
+# Enable once per clone:  git config core.hooksPath .githooks
+#
+# Needs the `leaf` CLI (LEAF_BIN, or `leaf` on PATH). Without it the hook
+# says so and lets the commit through — CI runs the same check regardless.
+
+if [ -z "$LEAF_BIN" ] && ! command -v leaf >/dev/null 2>&1; then
+  echo "pre-commit: no leaf CLI found; skipping the index check (CI will run it)" >&2
+  exit 0
+fi
+exec python3 scripts/build-index.py --check

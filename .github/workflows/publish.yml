@@ -1,0 +1,43 @@
+name: publish
+
+# On a tag, attach index.json and every script to a release, so the
+# repository can be served from anywhere static — the address the user typed
+# is the interface, and GitHub is only one host of it.
+#
+# If the MIRROR_REMOTE secret is set (a git URL with push credentials), the
+# whole repository is also pushed there. That is the answer to "this
+# repository can be taken down too": a mirror is one address edit away in
+# every user's settings, and nothing in the app changes.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          files="index.json"
+          for d in metadata enrich readers; do
+            [ -d "$d" ] && files="$files $(ls "$d"/*.lua 2>/dev/null | tr '\n' ' ')"
+          done
+          gh release create "$GITHUB_REF_NAME" $files \
+            --title "$GITHUB_REF_NAME" \
+            --notes "index.json and the scripts it lists, as of $GITHUB_REF_NAME."
+
+      - name: Mirror
+        env:
+          MIRROR_REMOTE: ${{ secrets.MIRROR_REMOTE }}
+        if: ${{ env.MIRROR_REMOTE != '' }}
+        run: git push --mirror "$MIRROR_REMOTE"

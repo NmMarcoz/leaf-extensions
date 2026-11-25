@@ -1,0 +1,50 @@
+name: verify
+
+# Every script is loaded through Leaf's real sandbox — the same loader the app
+# runs — with no network. A script that would show up "broken" in someone's
+# app fails here instead. Then index.json must be exactly what
+# scripts/build-index.py would write from the scripts as they are.
+
+on:
+  push:
+  pull_request:
+
+env:
+  # The Leaf source the `leaf` CLI is built from. Pin to a release tag whose
+  # CLI has `sources verify` — a moving branch would let an app change break
+  # this repository's CI without anything here changing.
+  LEAF_REPO: NmMarcoz/Leaf
+  LEAF_REF: main
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.LEAF_REPO }}
+          ref: ${{ env.LEAF_REF }}
+          path: .leaf
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: .leaf
+          cache-on-failure: true
+
+      - name: Build the leaf CLI
+        run: cargo install --locked --path .leaf/crates/leaf-cli --root "$HOME/.leaf-cli"
+
+      - name: Load every script through the sandbox
+        run: |
+          dirs=""
+          for d in metadata enrich readers; do
+            [ -d "$d" ] && dirs="$dirs $d"
+          done
+          "$HOME/.leaf-cli/bin/leaf" sources verify $dirs
+
+      - name: index.json matches the scripts
+        run: LEAF_BIN="$HOME/.leaf-cli/bin/leaf" python3 scripts/build-index.py --check

@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "name": "Leaf extensions",
+  "generated": "2026-11-25",
+  "scripts": [
+    {
+      "file": "readers/hqnow.lua",
+      "id": "user.hqnow",
+      "name": "HQNow",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://www.hq-now.com",
+      "mirrors": [
+        "https://admin.hq-now.com"
+      ],
+      "description": "Portuguese comics and manga through the site's GraphQL API.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "b4c49f76bb55185ba7a99a6281c08f8191d9d17fb32e221731e8c3b5d6d628e3",
+      "version": "2026-11-25"
+    },
+    {
+      "file": "readers/maidscan.lua",
+      "id": "user.maidscan",
+      "name": "Maid Scan",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://empreguetes.wtf",
+      "mirrors": [
+        "https://api.verdinha.wtf",
+        "https://cdn.verdinha.wtf"
+      ],
+      "description": "Portuguese scanlations from the Maid Scan group's API.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "ecd786d401506fe29e7fddc4673215fd3e71e6139d2cdf0824f9fc53fe6a2693",
+      "version": "2026-11-25"
+    },
+    {
+      "file": "readers/mangalivre.lua",
+      "id": "user.mangalivre",
+      "name": "MangaLivre (ToonLivre)",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://toonlivre.net",
+      "mirrors": [
+        "https://www.mangalivre.net"
+      ],
+      "description": "Portuguese manga; the site is mid-migration between two domains.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "49cc51810babe0717df6be4518ed51dbdd4a25c384ab4cced28e5a6537366131",
+      "version": "2026-11-25"
+    },
+    {
+      "file": "readers/mangataro.lua",
+      "id": "user.mangataro",
+      "name": "MangaTaro",
+      "kind": "reader",
+      "lang": "en",
+      "base_url": "https://mangataro.org",
+      "mirrors": [],
+      "description": "English manga from a WordPress-based reader.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "dcef99380f3fdbfe8f28cfd99ea8b65b783c3a2b76b400ab4afb8649e2588b5e",
+      "version": "2026-11-25"
+    }
+  ]
+}

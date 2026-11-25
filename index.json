@@ -49,6 +49,27 @@
       "version": "2026-11-25"
     },
     {
+      "file": "readers/mangadex.lua",
+      "id": "user.mangadex",
+      "name": "MangaDex",
+      "kind": "reader",
+      "lang": "multi",
+      "base_url": "https://mangadex.org",
+      "mirrors": [
+        "https://api.mangadex.org"
+      ],
+      "description": "Pages for chapters from Leaf's built-in MangaDex catalogue, via MangaDex@Home.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages"
+      ],
+      "sha256": "2b2edec79517889945643d623c25630dbcddc5cbe75b21ef2c258862335df7f8",
+      "version": "2026-11-25"
+    },
+    {
       "file": "readers/mangalivre.lua",
       "id": "user.mangalivre",
       "name": "MangaLivre (ToonLivre)",

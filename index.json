@@ -112,6 +112,29 @@
       "version": "2026-11-25"
     },
     {
+      "file": "readers/nexusmangas.lua",
+      "id": "user.nexusmangas",
+      "name": "Nexus Mangás",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://www.nexusmangas.com",
+      "mirrors": [
+        "https://supabase.nexusmangas.com",
+        "https://assets.nexusmangas.com"
+      ],
+      "description": "Portuguese manhwa, manga and manhua from Nexus Mangás.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "96953671da2eff321db1cfbb4a7b6c53f05ada4c5ece362b1ffbf6851a7046b1",
+      "version": "2026-11-27"
+    },
+    {
       "file": "readers/taosect.lua",
       "id": "user.taosect",
       "name": "Tao Sect",

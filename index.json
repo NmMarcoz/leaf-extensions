@@ -4,6 +4,52 @@
   "generated": "2026-11-27",
   "scripts": [
     {
+      "file": "readers/brscans.lua",
+      "id": "user.brscans",
+      "name": "BRScans",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://brscans.vercel.app",
+      "mirrors": [
+        "https://3wzrvo9ltl.execute-api.sa-east-1.amazonaws.com",
+        "https://d47sf0ah3vbtc.cloudfront.net"
+      ],
+      "description": "Portuguese (Brazil) translated manhwa from BRScans.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "bf390b8f6fe2532bff3b41c3f2d5defee408ceecb034267505be4fb81540a246",
+      "version": "2026-11-27"
+    },
+    {
+      "file": "readers/dropescan.lua",
+      "id": "user.dropescan",
+      "name": "Drope Scan",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://beta.dropescan.com",
+      "mirrors": [
+        "https://api.dropescan.com",
+        "https://bucket-1.dropescan.com"
+      ],
+      "description": "Mangás, manhwas e webcomics em português do Drope Scan.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "ecfeba6eba61aa62c6146afa1b37a9294351f07103dd33fd85bdef18ad0ff634",
+      "version": "2026-11-27"
+    },
+    {
       "file": "readers/hqnow.lua",
       "id": "user.hqnow",
       "name": "HQNow",
@@ -70,6 +116,29 @@
       "version": "2026-11-25"
     },
     {
+      "file": "readers/mangaflix.lua",
+      "id": "user.mangaflix",
+      "name": "MangaFlix",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://mangaflix.net",
+      "mirrors": [
+        "https://api.mangaflix.net",
+        "https://static.mangaflix.net"
+      ],
+      "description": "Portuguese manga, manhwa and manhua from MangaFlix.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "1e9e15c68e82c238e0270e0e9d90bbed5c9baa6dd3eb25f1573bf0032d2eb1fa",
+      "version": "2026-11-27"
+    },
+    {
       "file": "readers/mangalivre.lua",
       "id": "user.mangalivre",
       "name": "MangaLivre (ToonLivre)",
@@ -110,6 +179,29 @@
       ],
       "sha256": "dcef99380f3fdbfe8f28cfd99ea8b65b783c3a2b76b400ab4afb8649e2588b5e",
       "version": "2026-11-25"
+    },
+    {
+      "file": "readers/mangotoons.lua",
+      "id": "user.mangotoons",
+      "name": "Mango Toons",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://mangotoons.com",
+      "mirrors": [
+        "https://api.mangotoons.com",
+        "https://cdn.mangotoons.com"
+      ],
+      "description": "Portuguese manhwa and manga from Mango Toons.",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "d1d237151919c10c5fcfa22a1c1780c2edbdf95716875ec10d872e3d6d0e80f6",
+      "version": "2026-11-27"
     },
     {
       "file": "readers/nexusmangas.lua",
@@ -155,6 +247,29 @@
         "catalogue"
       ],
       "sha256": "fcf885797e7fda00bc1231cc7754e6def1e28a9b7e484c5e1513dcc13517a2f4",
+      "version": "2026-11-27"
+    },
+    {
+      "file": "readers/vegitoons.lua",
+      "id": "user.vegitoons",
+      "name": "Vegitoons",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://vegitoons.black",
+      "mirrors": [
+        "https://api.vegitoons.black",
+        "https://cdn.vegitoons.black"
+      ],
+      "description": "Portuguese scanlations from Vegitoons (GreenShit platform).",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages",
+        "catalogue"
+      ],
+      "sha256": "7a8f616d65584b067a84f5b66ccd9211ee1175057eae870afb4a3bf89df328cf",
       "version": "2026-11-27"
     }
   ]

@@ -128,9 +128,10 @@
       "capabilities": [
         "search",
         "chapters",
-        "pages"
+        "pages",
+        "catalogue"
       ],
-      "sha256": "73f76152ea8f72037ea9f84c22ee9f6fad325c245efef68dd45e169e65d4dcf5",
+      "sha256": "fcf885797e7fda00bc1231cc7754e6def1e28a9b7e484c5e1513dcc13517a2f4",
       "version": "2026-11-27"
     }
   ]

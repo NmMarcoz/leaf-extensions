@@ -6,6 +6,10 @@
 -- Ids: a series is its project slug ("one-punch-man"); a chapter is
 -- "<project slug>/<chapter slug>", because the chapter route needs both.
 --
+-- It also carries the whole catalogue shape (popular, latest, manga_details,
+-- volumes) so the site is offered in Explore. Filters are not ported: Leaf has
+-- no slot for them.
+--
 -- Not ported: the Kotlin posts a view counter to admin-ajax.php for the
 -- scanlator; leaf.http.post only sends JSON, so that call is left out.
 
@@ -56,19 +60,11 @@ local function unescape(s)
   return s
 end
 
---[[ ------------------------------------------------------------ search -- ]]
+--[[ ---------------------------------------------------------- catalogue -- ]]
 
-function search(query, page)
-  local params = {
-    { "page", page },
-    { "per_page", PER_PAGE },
-    { "_fields", "title,thumbnail,link,slug" },
-  }
-  if query and query ~= "" then
-    table.insert(params, { "search", query })
-  end
-  local rows = api_get("/projetos", params)
+local LIST_FIELDS = "title,thumbnail,link,slug"
 
+local function to_page(rows)
   local out = {}
   for i, row in ipairs(rows) do
     local cover = row.thumbnail
@@ -84,6 +80,112 @@ function search(query, page)
   -- The Kotlin reads X-WP-TotalPages; leaf.http exposes no headers, so a
   -- full page is the signal there may be another.
   return { manga = out, has_next_page = #rows >= PER_PAGE }
+end
+
+function search(query, page)
+  local params = {
+    { "page", page },
+    { "per_page", PER_PAGE },
+    { "_fields", LIST_FIELDS },
+  }
+  if query and query ~= "" then
+    table.insert(params, { "search", query })
+  end
+  return to_page(api_get("/projetos", params))
+end
+
+function popular(page)
+  return to_page(api_get("/projetos", {
+    { "order", "desc" },
+    { "orderby", "views" },
+    { "page", page },
+    { "per_page", PER_PAGE },
+    { "_fields", LIST_FIELDS },
+  }))
+end
+
+-- Newest chapters first, folded into the series they belong to. One chapter
+-- page maps to one list page, so a series with a burst of releases can appear
+-- again on the next page (the Kotlin kept state between pages to dedupe).
+local LATEST_CHAPTERS = 100
+
+function latest(page)
+  local chapter_rows = api_get("/capitulos", {
+    { "order", "desc" },
+    { "orderby", "date" },
+    { "page", page },
+    { "per_page", LATEST_CHAPTERS },
+    { "_fields", "post_id" },
+  })
+
+  local ids, seen = {}, {}
+  for _, row in ipairs(chapter_rows) do
+    if row.post_id and not seen[row.post_id] then
+      seen[row.post_id] = true
+      ids[#ids + 1] = row.post_id
+    end
+  end
+  if #ids == 0 then
+    return { manga = {}, has_next_page = false }
+  end
+
+  local result = to_page(api_get("/projetos", {
+    { "include", table.concat(ids, ",") },
+    { "per_page", #ids },
+    { "orderby", "include" },
+    { "_fields", LIST_FIELDS },
+  }))
+  result.has_next_page = #chapter_rows >= LATEST_CHAPTERS
+  return result
+end
+
+local function strip_html(html)
+  html = (html or ""):gsub("<[^>]*>", " ")
+  return (unescape(html):gsub("%s+", " "):gsub("^ ", ""):gsub(" $", ""))
+end
+
+function manga_details(id)
+  local rows = api_get("/projetos", {
+    { "per_page", 1 },
+    { "slug", id },
+    { "_fields", "title,informacoes,content,thumbnail,link" },
+  })
+  local project = rows[1]
+  if not project then
+    error("Projeto não encontrado.")
+  end
+  local info = project.informacoes or {}
+
+  local tags = {}
+  for _, genre in ipairs(info.generos or {}) do
+    if genre.nome and genre.nome ~= "" then
+      tags[#tags + 1] = genre.nome
+    end
+  end
+
+  local description = strip_html(project.content and project.content.rendered)
+  if info.titulo_pais_origem and info.titulo_pais_origem ~= "" then
+    description = description .. "\n\nTítulo original: " .. info.titulo_pais_origem
+  end
+  if info.serializacao and info.serializacao ~= "" then
+    description = description .. "\nSerialização: " .. info.serializacao
+  end
+
+  local function present(v)
+    if v == nil or v == "" then
+      return nil
+    end
+    return v
+  end
+
+  return {
+    title = unescape(project.title and project.title.rendered),
+    author = present(info.roteiro),
+    artist = present(info.arte),
+    description = description,
+    tags = tags,
+    cover_url = present(project.thumbnail),
+  }
 end
 
 --[[ ---------------------------------------------------------- chapters -- ]]
@@ -120,6 +222,19 @@ function chapters(manga_id)
     }
   end
   return out
+end
+
+function covers(id)
+  local cover = manga_details(id).cover_url
+  if not cover then
+    return {}
+  end
+  return { { url = cover } }
+end
+
+-- One flat list: the site has no volumes.
+function volumes(manga_id, language)
+  return { { volume = "Unsorted", chapters = chapters(manga_id) } }
 end
 
 --[[ ---------------------------------------------------------- page_list -- ]]

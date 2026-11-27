@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "Leaf extensions",
-  "generated": "2026-11-25",
+  "generated": "2026-11-27",
   "scripts": [
     {
       "file": "readers/hqnow.lua",
@@ -110,6 +110,28 @@
       ],
       "sha256": "dcef99380f3fdbfe8f28cfd99ea8b65b783c3a2b76b400ab4afb8649e2588b5e",
       "version": "2026-11-25"
+    },
+    {
+      "file": "readers/taosect.lua",
+      "id": "user.taosect",
+      "name": "Tao Sect",
+      "kind": "reader",
+      "lang": "pt",
+      "base_url": "https://taosect.com",
+      "mirrors": [
+        "https://drive.google.com",
+        "https://lh3.googleusercontent.com"
+      ],
+      "description": "Portuguese scanlations from Tao Sect (pages are hosted on Google Drive).",
+      "api": 1,
+      "nsfw": false,
+      "capabilities": [
+        "search",
+        "chapters",
+        "pages"
+      ],
+      "sha256": "73f76152ea8f72037ea9f84c22ee9f6fad325c245efef68dd45e169e65d4dcf5",
+      "version": "2026-11-27"
     }
   ]
 }
